@@ -9,7 +9,7 @@
 ### Requirement
     OutLook Email
     Email
-    Zip tools on server
+    Zip tools on server (install automaticly)
 
 ## USAGE
 
