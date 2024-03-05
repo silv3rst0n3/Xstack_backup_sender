@@ -13,7 +13,7 @@
 
 ## USAGE
 
-    1-Create Account on Outlook Email
+    1-add your Outlook Email
     2-add password outlook
     3-add your files path
     4-add your Path for Save Zip backup files
