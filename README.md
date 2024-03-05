@@ -15,8 +15,9 @@
 
     1-add your Outlook Email
     2-add password outlook
-    3-add your files path
-    4-add your Path for Save Zip backup files
+    3-add Your Email
+    4-add your files path
+    5-add your Path for Save Zip backup files
      
 
 
