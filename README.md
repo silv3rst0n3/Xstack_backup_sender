@@ -4,7 +4,7 @@
 
 # Xstack_Backup_Email_sender
 
-    send files on Your Directory for your Email
+    send your sensitive files on Your Directory to your Email Address
  
 ### Requirement
     OutLook Email
