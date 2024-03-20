@@ -41,7 +41,7 @@ The Xstack Backup Sender is a Bash script designed to automate the process of se
 3- Install gdive
 
 ```
-https://github.com/glotlabs/gdrive/releases/tag/3.9.1
+https://github.com/glotlabs/gdrive
 ```
 
 4-Create Google API credentials in 50 easy steps
