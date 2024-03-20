@@ -75,7 +75,7 @@ else
     time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
     zip $zippath$time.Zip $path*
     sleep 20
-    gdrive files upload $zippath$time.Zip | notify -id tel -bulk 
+    gdrive files upload $zippath$time.Zip
     echo "server bacup send file to Email. on DATE:$time" 
 fi
 
