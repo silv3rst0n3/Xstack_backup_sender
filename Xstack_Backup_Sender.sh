@@ -38,7 +38,14 @@ while getopts "p:" opt; do
       ;;
   esac
 done
-echo $path
+echo " Start backup Files Directory : $path"
+
+if [ -f /usr/bin/gdrive ]; then
+    echo ""
+else
+    echo -e "${RED} \n  [*] The 'gdrive' is NOT install in the /usr/bin directory."
+    exit;	
+fi
 
 if [ -z "$email" ]
 then
@@ -75,7 +82,7 @@ else
     time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
     zip $zippath$time.Zip $path*
     sleep 20
-    gdrive files upload $zippath$time.Zip
+    gdrive files upload $zippath$time.Zip | notify -id tel -bulk 
     echo "server bacup send file to Email. on DATE:$time" 
 fi
 
