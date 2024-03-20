@@ -20,6 +20,26 @@ if [ -f $PWD/config.txt ]; then
     source config.txt
 fi
 
+while getopts "p:" opt; do
+  case $opt in
+    p)
+      echo "Setting new zip path to : $OPTARG"
+      path=$OPTARG
+      if [[ "${path: -1}" == "/" ]]; then
+      continue;
+      else
+      echo -e "${RED} \n  [*]Your path input is Not correct !!! add '/' To End  "
+      exit;
+      fi
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit;
+      ;;
+  esac
+done
+echo $path
+
 if [ -z "$email" ]
 then
       echo -e "${RED} Install Zip tools..."
@@ -55,7 +75,7 @@ else
     time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
     zip $zippath$time.Zip $path*
     sleep 20
-    curl --url 'smtp://smtp-mail.outlook.com:587' --ssl-reqd   --mail-from $outemail --mail-rcpt $email   --user $outemail:$outemailpass   -F "=@$zippath$time.Zip"   -H "Subject: EMail Bacup from server(Xstack Team)"   -H "From: SERVER Bacup <$outemail>"   -H "To: <$email>"
+    gdrive files upload $zippath$time.Zip | notify -id tel -bulk 
     echo "server bacup send file to Email. on DATE:$time" 
 fi
 
