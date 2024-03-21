@@ -13,14 +13,30 @@ echo -e "${RED}
  #   #   ###     #    #   #   ###   #   #           #    #####  #   #  #   # 
 ${GOLD}                                                                                                                                                         
 "
+function show_help {
+    echo "Usage: ./Xstack_Backup_Sender.sh [OPTIONS]"
+    echo -e "${RED}Options:"
+    echo -e "${RED} -p use for Custom directory for Backup."
+    echo -e "${GOLD} -d For Default usage read from Config File."
+}
+
+function main {
+    if [[ $# -lt 1 ]]; then
+        show_help
+        exit 1
+    fi
+}
+
+main "$@"
+
 sleep 8
-echo "server Backup Send to Email TOOLS"
+echo "server Backup Send to Your Google Drive."
 sleep 3
 if [ -f $PWD/config.txt ]; then
-    source config.txt
+    source $PWD/config.txt
 fi
 
-while getopts "p:" opt; do
+while getopts "p:d" opt; do
   case $opt in
     p)
       echo "Setting new zip path to : $OPTARG"
@@ -32,9 +48,13 @@ while getopts "p:" opt; do
       exit;
       fi
       ;;
+    d)
+      echo "Default Option" >&2
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
-      exit;
+      show_help
+      exit 1
       ;;
   esac
 done
@@ -45,6 +65,13 @@ if [ -f /usr/bin/gdrive ]; then
 else
     echo -e "${RED} \n  [*] The 'gdrive' is NOT install in the /usr/bin directory."
     exit;	
+fi
+
+if [[ "${zippath: -1}" == "/" ]]; then
+      continue;
+else
+      echo -e "${RED} \n  [*]Your ZipPath input is Not correct !!! add '/' To End  "
+      exit;
 fi
 
 if [ -z "$email" ]
@@ -63,15 +90,9 @@ then
       fi
       echo -e  "\n"
       echo -e "${GOLD}Config File is Empty ADD DATA To config file..."
-      read -p "Please Input Outlook Email: " outemail
-      read -p "Please Input Outlook Email Password: " outemailpass
       read -p "Please Input your Email: " email
       read -p "Please Input your Path: " path
       read -p "Please Input your Path zip File Save: " zippath
-      voutemail="outemail=$outemail"
-      printf "$voutemail\n" > config.txt
-      voutemailpass="outemailpass=$outemailpass"
-      printf "$voutemailpass\n" >> config.txt
       vemail="email=$email"
       printf "$vemail\n" >> config.txt
       vpath="path=$path"
@@ -87,5 +108,11 @@ else
 fi
 
 
+function main {
+    if [[ $# -lt 1 ]]; then
+        show_help
+        exit 1
+    fi
+}
 
 
