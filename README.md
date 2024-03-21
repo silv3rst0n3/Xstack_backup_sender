@@ -50,8 +50,7 @@ https://github.com/glotlabs/gdrive
 https://github.com/glotlabs/gdrive/blob/main/docs/create_google_api_credentials.md
 ```
 
-4- Run the script:
-
+5- Run the script:
 
 ```bash
     ./Xstack_Backup_Sender.sh
