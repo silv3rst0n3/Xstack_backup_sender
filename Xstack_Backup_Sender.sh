@@ -2,6 +2,8 @@
 
 RED='\e[38;5;196m'
 GOLD='\e[38;5;226m'
+BLUE='\033[0;36m' 
+WHITE='\033[0;37m' 
 
 echo -e "${RED}                                                                             
  #   #   ###   #####    #     ###   #   #         #####  #####    #    #   # 
@@ -15,7 +17,7 @@ ${GOLD}
 "
 function show_help {
     echo "Usage: ./Xstack_Backup_Sender.sh [OPTIONS]"
-    echo -e "${RED}Options:"
+    echo -e "${WHITE}Options:"
     echo -e "${RED} -p use for Custom directory for Backup."
     echo -e "${GOLD} -d For Default usage read from Config File."
 }
@@ -42,7 +44,7 @@ while getopts "p:d" opt; do
       echo "Setting new zip path to : $OPTARG"
       path=$OPTARG
       if [[ "${path: -1}" == "/" ]]; then
-      continue;
+      echo ""
       else
       echo -e "${RED} \n  [*]Your path input is Not correct !!! add '/' To End  "
       exit;
@@ -58,6 +60,7 @@ while getopts "p:d" opt; do
       ;;
   esac
 done
+
 echo " Start backup Files Directory : $path"
 
 if [ -f /usr/bin/gdrive ]; then
@@ -68,7 +71,7 @@ else
 fi
 
 if [[ "${zippath: -1}" == "/" ]]; then
-      continue;
+      echo ""
 else
       echo -e "${RED} \n  [*]Your ZipPath input is Not correct !!! add '/' To End  "
       exit;
@@ -114,5 +117,3 @@ function main {
         exit 1
     fi
 }
-
-
