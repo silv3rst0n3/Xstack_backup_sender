@@ -36,6 +36,30 @@ echo "server Backup Send to Your Google Drive."
 sleep 3
 if [ -f $PWD/config.txt ]; then
     source $PWD/config.txt
+else
+    echo -e "${RED} Install Zip tools..."
+    sleep 4;
+    os=$(grep -E '^(NAME)=' /etc/os-release | cut -d "=" -f 2 | tr -d '"' )
+    if [ "$os" = "Ubuntu" ] || [ "$os" = "Debian" ] || [ "$os" = "Mint" ]; then
+          sudo apt install zip
+    elif [ "$os" = "RedHa" ] || [ "$os" = "CentOS" ] || [ "$os" = "Fedora" ]; then
+            sudo dnf install zip
+    elif [ "$os" = "Arch" ] || [ "$os" = "Manjaro Linux" ]; then
+            sudo pacman -S zip
+    elif [ "$os" = "OpenSUSE" ]; then
+            sudo zypper install zip
+    fi
+    echo -e  "\n"
+    echo -e "${GOLD}Config File is Empty ADD DATA To config file..."
+    read -p "Please Input your Email: " email
+    read -p "Please Input your Path: " path
+    read -p "Please Input your Path zip File Save: " zippath
+    vemail="email=$email"
+    printf "$vemail\n" >> config.txt
+    vpath="path=$path"
+    printf "$vpath\n" >> config.txt
+    vzippath="zippath=$zippath"
+    printf "$vzippath\n" >> config.txt
 fi
 
 while getopts "p:d" opt; do
@@ -52,6 +76,12 @@ while getopts "p:d" opt; do
       ;;
     d)
       echo "Default Option" >&2
+      time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
+      zip $zippath$time.Zip $path -r
+      sleep 20
+      gdrive files upload $zippath$time.Zip 
+      echo "server bacup send file to Email. on DATE:$time"
+      exit
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -60,8 +90,6 @@ while getopts "p:d" opt; do
       ;;
   esac
 done
-
-echo " Start backup Files Directory : $path"
 
 if [ -f /usr/bin/gdrive ]; then
     echo ""
@@ -75,41 +103,13 @@ if [[ "${zippath: -1}" == "/" ]]; then
 else
       echo -e "${RED} \n  [*]Your ZipPath input is Not correct !!! add '/' To End  "
       exit;
-fi
+fi 
 
-if [ -z "$email" ]
-then
-      echo -e "${RED} Install Zip tools..."
-      sleep 4;
-      os=$(grep -E '^(NAME)=' /etc/os-release | cut -d "=" -f 2 | tr -d '"' )
-      if [ "$os" = "Ubuntu" ] || [ "$os" = "Debian" ] || [ "$os" = "Mint" ]; then
-          sudo apt install zip
-      elif [ "$os" = "RedHa" ] || [ "$os" = "CentOS" ] || [ "$os" = "Fedora" ]; then
-            sudo dnf install zip
-      elif [ "$os" = "Arch" ] || [ "$os" = "Manjaro Linux" ]; then
-            sudo pacman -S zip
-      elif [ "$os" = "OpenSUSE" ]; then
-            sudo zypper install zip
-      fi
-      echo -e  "\n"
-      echo -e "${GOLD}Config File is Empty ADD DATA To config file..."
-      read -p "Please Input your Email: " email
-      read -p "Please Input your Path: " path
-      read -p "Please Input your Path zip File Save: " zippath
-      vemail="email=$email"
-      printf "$vemail\n" >> config.txt
-      vpath="path=$path"
-      printf "$vpath\n" >> config.txt
-      vzippath="zippath=$zippath"
-      printf "$vzippath\n" >> config.txt
-else
-    time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
+time=`TZ='Asia/Tehran' date +%Y-%m-%d_%H_%M`;
     zip $zippath$time.Zip $path -r
     sleep 20
     gdrive files upload $zippath$time.Zip 
-    echo "server bacup send file to Email. on DATE:$time" 
-fi
-
+    echo "server bacup send file to Email. on DATE:$time"
 
 function main {
     if [[ $# -lt 1 ]]; then
