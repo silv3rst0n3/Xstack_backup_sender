@@ -60,7 +60,9 @@ else
     printf "$vpath\n" >> config.txt
     vzippath="zippath=$zippath"
     printf "$vzippath\n" >> config.txt
-fi
+    echo "run script Again..."
+    exit
+    fi
 
 while getopts "p:d" opt; do
   case $opt in
